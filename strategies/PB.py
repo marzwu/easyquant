@@ -8,7 +8,7 @@ class Strategy(StrategyTemplate):
 
     def strategy(self, event):
         if not self.is_open:
-            pass
+            return
 
         self.log.info('\n\n策略PB触发')
         self.log.info('行情数据: 华宝油气 %s' % event.data['162411'])
@@ -20,14 +20,14 @@ class Strategy(StrategyTemplate):
         if event.data.clock_event == 'open':
             # 开市了
             self.log.info('open')
-            self.is_open = True
         elif event.data.clock_event == 'close':
             # 收市了
             self.log.info('close')
-            self.is_open = False
         elif event.data.clock_event == 5:
             # 5 分钟的 clock
             self.log.info("5分钟")
+
+        self.is_open = event.data.trading_state
 
     def log_handler(self):
         return DefaultLogHandler(self.name, log_type='file', filepath='pb.log')
