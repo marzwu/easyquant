@@ -16,7 +16,7 @@ class Strategy(StrategyTemplate):
         self.log.info(self.user.balance)
         self.log.info('\n')
 
-    def check(self, event):
+    def clock(self, event):
         if event.data.clock_event == 'open':
             # 开市了
             self.log.info('open')
@@ -28,6 +28,8 @@ class Strategy(StrategyTemplate):
             self.log.info("5分钟")
 
         self.is_open = event.data.trading_state
+        print("event.data.trading_state: ", event.data.trading_state)
+
 
     def log_handler(self):
         return DefaultLogHandler(self.name, log_type='file', filepath='pb.log')
