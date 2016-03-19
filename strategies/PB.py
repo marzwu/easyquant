@@ -1,3 +1,4 @@
+from datetime import date
 from easyquant import StrategyTemplate
 from easyquant import DefaultLogHandler
 
@@ -33,5 +34,6 @@ class Strategy(StrategyTemplate):
 
 
     def log_handler(self):
-        return DefaultLogHandler(self.name, log_type='file', filepath='pb.log')
+        today = date.today()
+        return DefaultLogHandler(self.name, log_type='file', filepath='log/pb-%s.log' % today.isoformat())
 

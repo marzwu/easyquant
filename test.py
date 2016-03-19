@@ -5,19 +5,23 @@ from easyquant import DefaultQuotationEngine, DefaultLogHandler, PushBaseEngine
 from easyquant.push_engine.quotation_engine import TencentQuotationEngine
 
 print('easyquant 测试 DEMO')
-print('请输入你使用的券商:')
-choose = input('1: 华泰 2: 佣金宝 3: 银河 4: 雪球模拟组合\n:')
+# print('请输入你使用的券商:')
+# choose = input('1: 华泰 2: 佣金宝 3: 银河 4: 雪球模拟组合\n:')
+#
+# broker = 'ht'
+# if choose == '2':
+#     broker = 'yjb'
+# elif choose == '3':
+#     broker = 'yh'
+# elif choose == '4':
+#     broker = 'xq'
 
-broker = 'ht'
-if choose == '2':
-    broker = 'yjb'
-elif choose == '3':
-    broker = 'yh'
-elif choose == '4':
-    broker = 'xq'
-
+broker = 'xq'
+# broker = 'yjb'
 
 def get_broker_need_data(choose_broker):
+    return '%s.json' % choose_broker
+
     need_data = input('请输入你的帐号配置文件路径(直接回车使用 %s.json)\n:' % choose_broker)
     if need_data == '':
         return '%s.json' % choose_broker
@@ -36,22 +40,27 @@ class LFEngine(PushBaseEngine):
     def fetch_quotation(self):
         return self.source.stocks(['162411', '000002'])
 
-quotation_choose = input('请输入使用行情引擎 1: sina 2: leverfun 十档 行情(目前只选择了 162411, 000002) 3: qq\n:')
+# quotation_choose = input('请输入使用行情引擎 1: sina 2: leverfun 十档 行情(目前只选择了 162411, 000002) 3: qq\n:')
+#
+# if quotation_choose == '1':
+#     quotation_engine = DefaultQuotationEngine
+# elif quotation_choose == '2':
+#     quotation_engine = LFEngine
+# elif quotation_choose == '3':
+#     quotation_engine = TencentQuotationEngine
 
-if quotation_choose == '1':
-    quotation_engine = DefaultQuotationEngine
-elif quotation_choose == '2':
-    quotation_engine = LFEngine
-elif quotation_choose == '3':
-    quotation_engine = TencentQuotationEngine
+quotation_engine = TencentQuotationEngine
 
 # quotation_engine = DefaultQuotationEngine if quotation_choose == '1' else LFEngine
 
-push_interval = int(input('请输入行情推送间隔(s)\n:'))
+# push_interval = int(input('请输入行情推送间隔(s)\n:'))
+push_interval = 10;
 quotation_engine.PushInterval = push_interval
 
-log_type_choose = input('请输入 log 记录方式: 1: 显示在屏幕 2: 记录到指定文件\n: ')
-log_type = 'stdout' if log_type_choose == '1' else 'file'
+# log_type_choose = input('请输入 log 记录方式: 1: 显示在屏幕 2: 记录到指定文件\n: ')
+# log_type = 'stdout' if log_type_choose == '1' else 'file'
+
+log_type = 'stdout'
 
 log_filepath = input('请输入 log 文件记录路径\n: ') if log_type == 'file' else ''
 
