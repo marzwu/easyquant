@@ -16,6 +16,7 @@ class Strategy(StrategyTemplate):
         self.log.info(self.user.balance)
         self.log.info('\n')
 
+
     def clock(self, event):
         if event.data.clock_event == 'open':
             # 开市了

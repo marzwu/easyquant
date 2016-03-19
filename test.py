@@ -2,6 +2,7 @@ import easyquotation
 
 import easyquant
 from easyquant import DefaultQuotationEngine, DefaultLogHandler, PushBaseEngine
+from easyquant.push_engine.quotation_engine import TencentQuotationEngine
 
 print('easyquant 测试 DEMO')
 print('请输入你使用的券商:')
@@ -35,9 +36,16 @@ class LFEngine(PushBaseEngine):
     def fetch_quotation(self):
         return self.source.stocks(['162411', '000002'])
 
-quotation_choose = input('请输入使用行情引擎 1: sina 2: leverfun 十档 行情(目前只选择了 162411, 000002)\n:')
+quotation_choose = input('请输入使用行情引擎 1: sina 2: leverfun 十档 行情(目前只选择了 162411, 000002) 3: qq\n:')
 
-quotation_engine = DefaultQuotationEngine if quotation_choose == '1' else LFEngine
+if quotation_choose == '1':
+    quotation_engine = DefaultQuotationEngine
+elif quotation_choose == '2':
+    quotation_engine = LFEngine
+elif quotation_choose == '3':
+    quotation_engine = TencentQuotationEngine
+
+# quotation_engine = DefaultQuotationEngine if quotation_choose == '1' else LFEngine
 
 push_interval = int(input('请输入行情推送间隔(s)\n:'))
 quotation_engine.PushInterval = push_interval

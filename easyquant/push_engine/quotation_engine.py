@@ -14,3 +14,8 @@ class DefaultQuotationEngine(BaseEngine):
 
     def fetch_quotation(self):
         return self.source.all
+
+class TencentQuotationEngine(DefaultQuotationEngine):
+
+    def init(self):
+        self.source = easyquotation.use('tencent')
