@@ -4,16 +4,15 @@ from easyquant import DefaultLogHandler
 
 
 class Strategy(StrategyTemplate):
-    name = 'PB'
+    name = 'market_cap'
     is_open = False
 
     def strategy(self, event):
         if not self.is_open:
             return
 
-        self.log.info('\n\n策略PB触发')
-        self.log.info('行情数据: 华宝油气 %s' % event.data['162411'])
-        self.log.info('检查持仓')
+
+
         self.log.info(self.user.balance)
         self.log.info('\n')
 
@@ -36,4 +35,3 @@ class Strategy(StrategyTemplate):
     def log_handler(self):
         today = date.today()
         return DefaultLogHandler(self.name, log_type='file', filepath='log/%s-%s.log' % (self.name, today.isoformat()))
-

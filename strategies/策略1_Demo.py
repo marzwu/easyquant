@@ -67,4 +67,4 @@ class Strategy(StrategyTemplate):
     def log_handler(self):
         """自定义 log 记录方式"""
         today = date.today()
-        return DefaultLogHandler(self.name, log_type='file', filepath='log/demo1-%s.log' % today.isoformat())
+        return DefaultLogHandler(self.name, log_type='file', filepath='log/%s-%s.log' % (self.name, today.isoformat()))
