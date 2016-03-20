@@ -48,12 +48,15 @@ class Strategy(StrategyTemplate):
 
     def make_min_cap_stocks(self, event):
         today = date.today()
-        if(self.last_sort_date and (today - self.last_sort_date).days > 15):
+        if (self.last_sort_date is None):
             self.should_rebalance = True
-            return
+        elif(self.last_sort_date and (today - self.last_sort_date).days > 15):
+            self.should_rebalance = True
         else:
             self.should_rebalance = False
-            self.last_sort_date = today
+            return
+
+        self.last_sort_date = today
 
         eq = ts.Equity()
         df = eq.Equ(equTypeCD='A', listStatusCD='L', field='ticker,secShortName,totalShares,nonrestFloatShares,listStatusCD')
@@ -79,17 +82,23 @@ class Strategy(StrategyTemplate):
         else:
             self.should_rebalance = False
 
-        positions = self.log.info(self.user.position)
+        positions = self.user.position
         position_codes = [x['stock_code'] for x in positions]
         target_codes = [x['code'] for x in self.min_cap_stocks]
 
-        clear_codes = position_codes - target_codes
+        clear_codes = []
+        for x in position_codes:
+            if not (x in target_codes):
+                clear_codes.append(x)
         for x in clear_codes:
             print('sell {}'.format(x))
             self.user.sell(x)
 
         balance = self.user.balance[0]
-        buy_codes = target_codes - position_codes
+        buy_codes = []
+        for x in target_codes:
+            if not (x in position_codes):
+                buy_codes.append(x)
         balance_each = balance / len(buy_codes)
         for x in buy_codes:
             bid1 = event.data[x].bid1
