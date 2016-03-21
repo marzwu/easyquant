@@ -86,22 +86,23 @@ class Strategy(StrategyTemplate):
         position_codes = [x['stock_code'] for x in positions]
         target_codes = [x['code'] for x in self.min_cap_stocks]
 
-        clear_codes = []
-        for x in position_codes:
-            if not (x in target_codes):
-                clear_codes.append(x)
-        for x in clear_codes:
-            print('sell {}'.format(x))
-            self.user.sell(x)
+        for x in positions:
+            # code = filter(str.isdigit, x['stock_code'])
+            code = ''.join(c for c in x['stock_code'] if c in '0123456789')
+            if not code in target_codes:
+                self.log.info('sell {}'.format(x))
+                self.user.sell(x['stock_code'], event.data[code]['ask1'], x['enable_amount'])
 
         balance = self.user.balance[0]
         buy_codes = []
         for x in target_codes:
             if not (x in position_codes):
                 buy_codes.append(x)
-        balance_each = balance / len(buy_codes)
+        balance_each = balance['current_balance'] / len(buy_codes)
         for x in buy_codes:
-            bid1 = event.data[x].bid1
+            bid1 = event.data[x]['bid1']
+            if bid1 <= 0:
+                continue
             amount = int(balance_each / bid1 / 100) * 100
-            print('buy {} {}'.format(x, amount))
+            self.log.info('buy {} {}'.format(x, amount))
             self.user.buy(x, bid1, amount)
