@@ -3,6 +3,11 @@ import easyquotation
 import easyquant
 from easyquant import DefaultQuotationEngine, DefaultLogHandler, PushBaseEngine
 from easyquant.push_engine.quotation_engine import TencentQuotationEngine
+import tushare as ts
+
+f = open('token.txt')
+ts.set_token(f.read())
+print(ts.get_token())
 
 print('easyquant 测试 DEMO')
 # print('请输入你使用的券商:')
