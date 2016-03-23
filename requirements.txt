@@ -1,3 +1,4 @@
+tushare
 requests
 logbook
 anyjson

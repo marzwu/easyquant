@@ -46,9 +46,9 @@ class Strategy(StrategyTemplate):
 
     def make_min_cap_stocks(self, event):
         today = date.today()
-        if (self.last_sort_date is None):
+        if self.last_sort_date is None:
             self.should_rebalance = True
-        elif (self.last_sort_date and (today - self.last_sort_date).days > 15):
+        elif self.last_sort_date and (today - self.last_sort_date).days > 15:
             self.should_rebalance = True
         else:
             self.should_rebalance = False
