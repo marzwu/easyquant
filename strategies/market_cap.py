@@ -26,7 +26,6 @@ class Strategy(StrategyTemplate):
         self.log.info(self.user.entrust)
         self.log.info('\n')
 
-
     def clock(self, event):
         if event.data.clock_event == 'open':
             # 开市了
@@ -41,7 +40,6 @@ class Strategy(StrategyTemplate):
         self.is_open = event.data.trading_state
         print("event.data.trading_state: ", event.data.trading_state)
 
-
     def log_handler(self):
         today = date.today()
         return DefaultLogHandler(self.name, log_type='file', filepath='log/%s-%s.log' % (self.name, today.isoformat()))
@@ -50,7 +48,7 @@ class Strategy(StrategyTemplate):
         today = date.today()
         if (self.last_sort_date is None):
             self.should_rebalance = True
-        elif(self.last_sort_date and (today - self.last_sort_date).days > 15):
+        elif (self.last_sort_date and (today - self.last_sort_date).days > 15):
             self.should_rebalance = True
         else:
             self.should_rebalance = False
@@ -59,7 +57,8 @@ class Strategy(StrategyTemplate):
         self.last_sort_date = today
 
         eq = ts.Equity()
-        df = eq.Equ(equTypeCD='A', listStatusCD='L', field='ticker,secShortName,totalShares,nonrestFloatShares,listStatusCD')
+        df = eq.Equ(equTypeCD='A', listStatusCD='L',
+                    field='ticker,secShortName,totalShares,nonrestFloatShares,listStatusCD')
         df['ticker'] = df['ticker'].map(lambda x: str(x).zfill(6))
         df['listStatusCD'] = df['listStatusCD'].str.contains('L')
         tickers = df['ticker'].values
@@ -68,12 +67,12 @@ class Strategy(StrategyTemplate):
         datas = [x for x in iter(event.data.values())]
         datas = list(filter(lambda x: True if x['code'] in tickers else False, datas))
         datas = list(filter(lambda x: x['总市值'] is not None and x['总市值'] > 0, datas))
-        datas.sort(key=cmp_to_key(lambda x,y: x['总市值']-y['总市值']))
+        datas.sort(key=cmp_to_key(lambda x, y: x['总市值'] - y['总市值']))
         datas = datas[:self.max_stocks]
 
         self.min_cap_stocks = []
         for x in datas:
-            self.min_cap_stocks.append({'code':x['code'], '总市值':x['总市值'], 'name':x['name']})
+            self.min_cap_stocks.append({'code': x['code'], '总市值': x['总市值'], 'name': x['name']})
         print(self.min_cap_stocks)
 
     def rebalance(self, event):
