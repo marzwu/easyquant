@@ -44,9 +44,14 @@ class Strategy(StrategyTemplate):
         # 使用 self.log.info('message') 来打印你所需要的 log
         print('demo1 的 log 使用自定义 log 的方式记录在 demo1.log')
         self.log.info('\n\n策略1触发')
-        self.log.info('行情数据: 万科价格: %s' % event.data['000002'])
+        # self.log.info('行情数据: 万科价格: %s' % event.data['000002'])
         self.log.info('检查持仓')
+        self.log.info('self.user.balance')
         self.log.info(self.user.balance)
+        self.log.info('self.user.position')
+        self.log.info(self.user.position)
+        self.log.info('self.user.entrust')
+        self.log.info(self.user.entrust)
         self.log.info('\n')
 
     def clock(self, event):
