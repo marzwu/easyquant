@@ -14,6 +14,6 @@ class Strategy(StrategyTemplate):
         self.log.info('self.user.position')
         self.log.info(self.user.position)
         self.log.info('self.user.entrust')
-        self.log.info(self.user.entrust)
+        self.log.info(self.user.entrust())
         self.log.info('\n')
 
