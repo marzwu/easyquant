@@ -90,7 +90,7 @@ class Strategy(StrategyTemplate):
             code = ''.join(c for c in x['stock_code'] if c in '0123456789')
             if not code in target_codes:
                 self.log.info('sell {}'.format(x))
-                self.user.sell(x['stock_code'], event.data[code]['ask1'], x['enable_amount'])
+                self.user.sell(x['stock_code'], event.data[code]['ask1'], x['enable_amount'], x['market_value'])
 
         balance = self.user.balance[0]
         buy_codes = []
