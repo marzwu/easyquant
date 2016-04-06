@@ -59,7 +59,7 @@ quotation_engine = TencentQuotationEngine
 # quotation_engine = DefaultQuotationEngine if quotation_choose == '1' else LFEngine
 
 # push_interval = int(input('请输入行情推送间隔(s)\n:'))
-push_interval = 10;
+push_interval = 30;
 quotation_engine.PushInterval = push_interval
 
 # log_type_choose = input('请输入 log 记录方式: 1: 显示在屏幕 2: 记录到指定文件\n: ')
@@ -72,5 +72,5 @@ log_filepath = input('请输入 log 文件记录路径\n: ') if log_type == 'fil
 log_handler = DefaultLogHandler(name='测试', log_type=log_type, filepath=log_filepath)
 
 m = easyquant.MainEngine(broker, need_data, quotation_engines=[quotation_engine], log_handler=log_handler)
-m.load_strategy()
+m.load_strategy(['五日十日均线'])
 m.start()

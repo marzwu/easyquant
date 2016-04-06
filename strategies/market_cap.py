@@ -15,8 +15,8 @@ class Strategy(StrategyTemplate):
     max_stocks = 7
 
     def strategy(self, event):
-        # if not self.is_open:
-        #     return
+        if not self.is_open:
+            return
 
         self.make_min_cap_stocks(event)
         self.rebalance(event)
