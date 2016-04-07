@@ -86,5 +86,6 @@ class Strategy(StrategyTemplate):
             for x in self.position:
                 # code = filter(str.isdigit, x['stock_code'])
                 code = ''.join(c for c in x['stock_code'] if c in '0123456789')
-                self.log.info('sell {}'.format(x))
-                self.user.sell(x['stock_code'], event.data[code]['ask1'], x['enable_amount'], x['market_value'])
+                if code == self.code:
+                    self.log.info('sell {}'.format(x))
+                    self.user.sell(x['stock_code'], event.data[code]['ask1'], x['enable_amount'], x['market_value'])
