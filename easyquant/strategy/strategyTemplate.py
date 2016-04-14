@@ -1,5 +1,5 @@
 # coding:utf-8
-
+import traceback
 
 class StrategyTemplate:
     name = 'DefaultStrategyTemplate'
@@ -55,6 +55,7 @@ class StrategyTemplate:
             self.strategy(event)
         except Exception as e:
             self.log.error(e)
+            self.log.error(traceback.format_exc())
 
     def clock(self, event):
         pass
