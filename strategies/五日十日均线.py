@@ -26,7 +26,7 @@ class Strategy(StrategyTemplate):
 
         self.balance = self.user.balance
         self.position = self.user.position
-        entrust = self.user.entrust()
+        entrust = self.user.entrust
         entrust = [x for x in entrust if x['entrust_status'] == '已报']
         self.entrust = entrust
 

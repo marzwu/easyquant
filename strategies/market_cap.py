@@ -12,18 +12,18 @@ class Strategy(StrategyTemplate):
     is_open = False
     last_sort_date = None
     min_cap_stocks = []
-    max_stocks = 7
+    max_stocks = 2
 
     def strategy(self, event):
-        if not self.is_open:
-            return
+        # if not self.is_open:
+        #     return
 
         self.make_min_cap_stocks(event)
         self.rebalance(event)
 
         self.log.info('balance: {}'.format(self.user.balance))
         self.log.info('position: {}'.format(self.user.position))
-        entrust = self.user.entrust()
+        entrust = self.user.entrust
         entrust = [x for x in entrust if x['entrust_status'] == '已报']
         self.log.info('entrust: {}'.format(entrust))
         self.log.info('\n')
@@ -84,7 +84,7 @@ class Strategy(StrategyTemplate):
             self.should_rebalance = False
 
         positions = self.user.position
-        entrust = self.user.entrust()
+        entrust = self.user.entrust
         #持仓和已经委托买入的
         position_codes = [x['stock_code'] for x in positions] \
                          + [x['stock_code'] for x in entrust if x['entrust_status'] == '已报' and x['entrust_bs'] == '买入']
