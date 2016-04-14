@@ -12,7 +12,7 @@ class Strategy(StrategyTemplate):
     is_open = False
     last_sort_date = None
     min_cap_stocks = []
-    max_stocks = 2
+    max_stocks = 5
 
     def strategy(self, event):
         # if not self.is_open:
@@ -66,16 +66,16 @@ class Strategy(StrategyTemplate):
         tickers = df['ticker'].values
         # print(tickers)
 
-        datas = [x for x in iter(event.data.values()) if x['volume'] > 0]#剔除停牌
+        datas = [x for x in iter(event.data.values()) if x['volume'] > 0]#交易量为0即停牌,剔除停牌
         datas = list(filter(lambda x: True if x['code'] in tickers else False, datas))#剔除非上市状态
         datas = list(filter(lambda x: x['总市值'] is not None and x['总市值'] > 0, datas))#排除市值等于0的,比如基金
-        datas.sort(key=cmp_to_key(lambda x, y: x['总市值'] - y['总市值']))#排序
+        datas.sort(key=cmp_to_key(lambda x, y: x['总市值'] - y['总市值']))#市值升序排序
         datas = datas[:self.max_stocks]
 
         self.min_cap_stocks = []
         for x in datas:
             self.min_cap_stocks.append({'code': x['code'], '总市值': x['总市值'], 'name': x['name']})
-        print(self.min_cap_stocks)
+        print('股票池:{}'.format(self.min_cap_stocks))
 
     def rebalance(self, event):
         if not self.should_rebalance:
@@ -99,7 +99,6 @@ class Strategy(StrategyTemplate):
                 self.log.info('sell {}'.format(x))
                 self.user.sell(x['stock_code'], event.data[code]['ask1'], x['enable_amount'], x['market_value'])
 
-        balance = self.user.balance[0]
         buy_codes = []
         for x in target_codes:
             if not (x in position_codes):
@@ -107,6 +106,7 @@ class Strategy(StrategyTemplate):
 
         # 买入股票
         if len(buy_codes) > 0:
+            balance = self.user.balance[0]
             balance_each = balance['current_balance'] / len(buy_codes)
             for x in buy_codes:
                 bid1 = event.data[x]['bid1']
