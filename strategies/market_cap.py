@@ -15,8 +15,8 @@ class Strategy(StrategyTemplate):
     max_stocks = 5
 
     def strategy(self, event):
-        # if not self.is_open:
-        #     return
+        if not self.is_open:
+            return
 
         self.make_min_cap_stocks(event)
         self.rebalance(event)
@@ -66,7 +66,7 @@ class Strategy(StrategyTemplate):
         tickers = df['ticker'].values
         # print(tickers)
 
-        datas = [x for x in iter(event.data.values()) if x['volume'] > 0]#交易量为0即停牌,剔除停牌
+        datas = [x for x in iter(event.data.values()) if x['volume'] > 0 and not x['name'].find('*st')]#交易量为0即停牌,剔除停牌,剔除*st
         datas = list(filter(lambda x: True if x['code'] in tickers else False, datas))#剔除非上市状态
         datas = list(filter(lambda x: x['总市值'] is not None and x['总市值'] > 0, datas))#排除市值等于0的,比如基金
         datas.sort(key=cmp_to_key(lambda x, y: x['总市值'] - y['总市值']))#市值升序排序
