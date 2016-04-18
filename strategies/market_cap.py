@@ -93,6 +93,9 @@ class Strategy(StrategyTemplate):
 
         # 卖出不在买入列表里的股票
         for x in positions:
+            if x['stock_code'] == '':
+                continue
+
             # code = filter(str.isdigit, x['stock_code'])
             code = ''.join(c for c in x['stock_code'] if c in '0123456789')
             if not code in target_codes:
