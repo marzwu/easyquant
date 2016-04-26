@@ -271,5 +271,3 @@ class Strategy(StrategyTemplate):
         else:
             g.risk_flag = g.buy_flag
         '''
-        
-    
