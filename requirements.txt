@@ -5,3 +5,5 @@ anyjson
 aiohttp
 easytrader
 easyquotation
+arrow
+dateutil

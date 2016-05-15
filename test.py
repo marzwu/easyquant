@@ -1,4 +1,5 @@
 import easyquotation
+from easyquant.push_engine.clock_engine import ClockEngine
 
 import easyquant
 from easyquant import DefaultQuotationEngine, DefaultLogHandler, PushBaseEngine
@@ -70,6 +71,7 @@ log_type = 'stdout'
 log_filepath = input('请输入 log 文件记录路径\n: ') if log_type == 'file' else ''
 
 log_handler = DefaultLogHandler(name='测试', log_type=log_type, filepath=log_filepath)
+
 
 m = easyquant.MainEngine(broker, need_data, quotation_engines=[quotation_engine], log_handler=log_handler)
 m.load_strategy(['五日十日均线'])

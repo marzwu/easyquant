@@ -1,10 +1,23 @@
-from datetime import date
+import datetime as dt
+from dateutil import tz
 from easyquant import DefaultLogHandler
 from easyquant import StrategyTemplate
 
 
 class Strategy(StrategyTemplate):
     name = '测试策略1'
+
+    def init(self):
+        now = self.clock_engine.now_dt
+
+        # 注册时钟事件
+        clock_type = "盘尾"
+        moment = dt.time(14, 56, 30, tzinfo=tz.tzlocal())
+        self.clock_engine.register_moment(clock_type, moment)
+
+        # 注册时钟间隔事件, 不在交易阶段也会触发, clock_type == minute_interval
+        minute_interval = 1.5
+        self.clock_engine.register_interval(minute_interval, trading=False)
 
     def strategy(self, event):
         """:param event event.data 为所有股票的信息，结构如下
@@ -44,14 +57,9 @@ class Strategy(StrategyTemplate):
         # 使用 self.log.info('message') 来打印你所需要的 log
         print('demo1 的 log 使用自定义 log 的方式记录在 demo1.log')
         self.log.info('\n\n策略1触发')
-        # self.log.info('行情数据: 万科价格: %s' % event.data['000002'])
+        self.log.info('行情数据: 万科价格: %s' % event.data['000002'])
         self.log.info('检查持仓')
-        self.log.info('self.user.balance')
         self.log.info(self.user.balance)
-        self.log.info('self.user.position')
-        self.log.info(self.user.position)
-        self.log.info('self.user.entrust')
-        self.log.info(self.user.entrust)
         self.log.info('\n')
 
     def clock(self, event):
@@ -71,5 +79,4 @@ class Strategy(StrategyTemplate):
 
     def log_handler(self):
         """自定义 log 记录方式"""
-        today = date.today()
-        return DefaultLogHandler(self.name, log_type='file', filepath='log/%s-%s.log' % (self.name, today.isoformat()))
+        return DefaultLogHandler(self.name, log_type='file', filepath='demo1.log')
