@@ -12,7 +12,7 @@ class Strategy(StrategyTemplate):
     is_open = False
     last_sort_date = None
     min_cap_stocks = []
-    max_stocks = 5
+    max_stocks = 2
 
     def strategy(self, event):
         if not self.is_open:
@@ -101,6 +101,7 @@ class Strategy(StrategyTemplate):
             # if not code in target_codes:
             if True:
                 self.log.info('sell {}'.format(x))
+                print('sell {}'.format(x))
                 self.user.sell(x['stock_code'], event.data[code]['ask1'], x['enable_amount'], x['market_value'])
 
         buy_codes = []
@@ -118,4 +119,5 @@ class Strategy(StrategyTemplate):
                     continue
                 amount = int(balance_each / bid1 / 100) * 100
                 self.log.info('buy {} {}'.format(x, amount))
+                print('buy {} {}'.format(x, amount))
                 self.user.buy(x, bid1, amount)
