@@ -12,7 +12,7 @@ class Strategy(StrategyTemplate):
     is_open = False
     last_sort_date = None
     min_cap_stocks = []
-    max_stocks = 2
+    max_stocks = 3
 
     def strategy(self, event):
         if not self.is_open:
@@ -106,7 +106,8 @@ class Strategy(StrategyTemplate):
 
         buy_codes = []
         for x in target_codes:
-            if not (x in position_codes):
+            # if not (x in position_codes):
+            if True:
                 buy_codes.append(x)
 
         # 买入股票
