@@ -116,7 +116,8 @@ class Strategy(StrategyTemplate):
 
         if len(buy_codes) > 0:
             balance = self.user.balance[0]
-            balance_each = balance['current_balance'] / len(buy_codes)
+            print('可用现金'.format(balance['enable_balance']))
+            balance_each = balance['enable_balance'] / len(buy_codes)
             for x in buy_codes:
                 bid1 = event.data[x]['bid1']
                 if bid1 <= 0:  # 如果停牌
