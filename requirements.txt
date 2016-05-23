@@ -6,4 +6,4 @@ aiohttp
 easytrader
 easyquotation
 arrow
-dateutil
+python-dateutil
