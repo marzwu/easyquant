@@ -9,7 +9,7 @@ f = open('token.txt')
 ts.set_token(f.read())
 print(ts.get_token())
 
-print('easyquant 测试 DEMO')
+# print('easyquant 测试 DEMO')
 # print('请输入你使用的券商:')
 # choose = input('1: 华泰 2: 佣金宝 3: 银河 4: 雪球模拟组合 5: 广发\n:')
 #
