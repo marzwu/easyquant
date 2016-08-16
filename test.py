@@ -1,5 +1,4 @@
 import easyquotation
-from easyquant.push_engine.clock_engine import ClockEngine
 
 import easyquant
 from easyquant import DefaultQuotationEngine, DefaultLogHandler, PushBaseEngine
@@ -12,7 +11,7 @@ print(ts.get_token())
 
 print('easyquant 测试 DEMO')
 # print('请输入你使用的券商:')
-# choose = input('1: 华泰 2: 佣金宝 3: 银河 4: 雪球模拟组合\n:')
+# choose = input('1: 华泰 2: 佣金宝 3: 银河 4: 雪球模拟组合 5: 广发\n:')
 #
 # broker = 'ht'
 # if choose == '2':
@@ -21,6 +20,8 @@ print('easyquant 测试 DEMO')
 #     broker = 'yh'
 # elif choose == '4':
 #     broker = 'xq'
+# elif choose == '5':
+#     broker = 'gf'
 
 broker = 'xq'
 # broker = 'yjb'
@@ -72,7 +73,7 @@ log_filepath = input('请输入 log 文件记录路径\n: ') if log_type == 'fil
 
 log_handler = DefaultLogHandler(name='测试', log_type=log_type, filepath=log_filepath)
 
-
 m = easyquant.MainEngine(broker, need_data, quotation_engines=[quotation_engine], log_handler=log_handler)
+m.is_watch_strategy = True  # 策略文件出现改动时,自动重载,不建议在生产环境下使用
 m.load_strategy(['五日十日均线'])
 m.start()
