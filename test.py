@@ -57,6 +57,7 @@ class LFEngine(PushBaseEngine):
 #     quotation_engine = TencentQuotationEngine
 
 quotation_engine = TencentQuotationEngine
+# quotation_engine = DefaultQuotationEngine
 
 # quotation_engine = DefaultQuotationEngine if quotation_choose == '1' else LFEngine
 
@@ -75,5 +76,6 @@ log_handler = DefaultLogHandler(name='测试', log_type=log_type, filepath=log_f
 
 m = easyquant.MainEngine(broker, need_data, quotation_engines=[quotation_engine], log_handler=log_handler)
 m.is_watch_strategy = True  # 策略文件出现改动时,自动重载,不建议在生产环境下使用
-m.load_strategy(['五日十日均线'])
+# m.load_strategy(['五日十日均线'])
+m.load_strategy(['market_cap'])
 m.start()

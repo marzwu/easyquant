@@ -15,8 +15,8 @@ class Strategy(StrategyTemplate):
     max_stocks = 3
 
     def strategy(self, event):
-        if not self.is_open:
-            return
+        # if not self.is_open:
+        #     return
 
         self.make_min_cap_stocks(event)
         self.rebalance(event)
@@ -92,26 +92,15 @@ class Strategy(StrategyTemplate):
         position_codes = [''.join(c for c in x if c in '0123456789') for x in position_codes]
         target_codes = [x['code'] for x in self.min_cap_stocks]
 
-        # 卖出不在买入列表里的股票
-        for x in positions:
-            if x['stock_code'] == '':
-                continue
+        self.sell(event,  positions)
+        self.buy(event, position_codes, target_codes)
 
-            # code = filter(str.isdigit, x['stock_code'])
-            code = ''.join(c for c in x['stock_code'] if c in '0123456789')
-            # if not code in target_codes:
-            if True:
-                self.log.info('sell {}'.format(x))
-                print('sell {}'.format(x))
-                self.user.sell(x['stock_code'], event.data[code]['ask1'], x['enable_amount'], x['market_value'])
-
-        # return
-
+    def buy(self, event, position_codes, target_codes):
         # 买入股票
         buy_codes = []
         for x in target_codes:
-            # if not (x in position_codes):
-            if True:
+            if not (x in position_codes):
+            # if True:
                 buy_codes.append(x)
 
         if len(buy_codes) > 0:
@@ -126,3 +115,17 @@ class Strategy(StrategyTemplate):
                 self.log.info('buy {} {}'.format(x, amount))
                 print('buy {} {}'.format(x, amount))
                 self.user.buy(x, bid1, amount)
+
+    def sell(self, event, positions):
+        # 卖出不在买入列表里的股票
+        for x in positions:
+            if x['stock_code'] == '':
+                continue
+
+            # code = filter(str.isdigit, x['stock_code'])
+            code = ''.join(c for c in x['stock_code'] if c in '0123456789')
+            # if not code in target_codes:
+            if True:
+                self.log.info('sell {}'.format(x))
+                print('sell {}'.format(x))
+                self.user.sell(x['stock_code'], event.data[code]['ask1'], x['enable_amount'], x['market_value'])
