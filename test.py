@@ -5,9 +5,9 @@ from easyquant import DefaultQuotationEngine, DefaultLogHandler, PushBaseEngine
 from easyquant.push_engine.quotation_engine import TencentQuotationEngine
 import tushare as ts
 
-f = open('token.txt')
-ts.set_token(f.read())
-print(ts.get_token())
+# f = open('token.txt')
+# ts.set_token(f.read())
+# print(ts.get_token())
 
 # print('easyquant 测试 DEMO')
 # print('请输入你使用的券商:')
@@ -23,7 +23,8 @@ print(ts.get_token())
 # elif choose == '5':
 #     broker = 'gf'
 
-broker = 'xq'
+# broker = 'xq'
+broker = 'yh_client'
 # broker = 'yjb'
 
 def get_broker_need_data(choose_broker):
@@ -56,13 +57,13 @@ class LFEngine(PushBaseEngine):
 # elif quotation_choose == '3':
 #     quotation_engine = TencentQuotationEngine
 
-quotation_engine = TencentQuotationEngine
-# quotation_engine = DefaultQuotationEngine
+# quotation_engine = TencentQuotationEngine
+quotation_engine = DefaultQuotationEngine
 
 # quotation_engine = DefaultQuotationEngine if quotation_choose == '1' else LFEngine
 
 # push_interval = int(input('请输入行情推送间隔(s)\n:'))
-push_interval = 30;
+push_interval = 10;
 quotation_engine.PushInterval = push_interval
 
 # log_type_choose = input('请输入 log 记录方式: 1: 显示在屏幕 2: 记录到指定文件\n: ')
@@ -77,5 +78,5 @@ log_handler = DefaultLogHandler(name='测试', log_type=log_type, filepath=log_f
 m = easyquant.MainEngine(broker, need_data, quotation_engines=[quotation_engine], log_handler=log_handler)
 m.is_watch_strategy = True  # 策略文件出现改动时,自动重载,不建议在生产环境下使用
 # m.load_strategy(['五日十日均线'])
-m.load_strategy(['market_cap'])
+m.load_strategy(['bbi'])
 m.start()
